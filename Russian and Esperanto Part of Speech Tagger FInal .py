@@ -1,5 +1,4 @@
 import re
-
 # If a string is passed into the part of speech tagger, this function will be called to split it into a list of strings.
 def tokenize(s):
     """
@@ -15,15 +14,17 @@ def preprocess(s, lowercase = True, strip_punctuation = True):
     Input: String s or list of strings
     Output: List of strings
     """
-    punctuation = ".,/?;()!«»–"
+    punctuation = ".,/?;()!«»—"
     if isinstance(s, str):
         s = tokenize(s)
     if lowercase:
         s = [t.lower() for t in s]
     if strip_punctuation:
         s = [t.strip(punctuation) for t in s]
+    # The following line of code eliminates empty strings that may have ended up in the list due to punctuation stripping.
+    final_s = list(filter(None, s))
     
-    return s
+    return final_s
 
 # These sets of characters will enable us to determine which language the part of speech tagger should parse for.
 russian_chars = r"(а||в|г|д|е|ж|з|и|й|к|л|м|н|о|п|р|с|т|у|ф|х|ц|ч|ш|щ|ь|ъ|ы|э|ю|я)"
@@ -36,7 +37,7 @@ rus_adj = r"(\wые$|\wая$|\wый$|\wое$|\wий$|\wие$|\wого$|\wой$|\
 rus_verb = r"(\wть$|\wести$|\wаю$|\wю$|\wшь$|\wает$|\wит$|\wаем$|\wим$|\wаете$|\wите$|\wают$|\wят$|\w[аиыеу]л$|\wл[аои]$|\wс[ья]$|^этот$|^эт[оаи]$)"
 rus_pron = r"(^он$|^его$|^ему$|^нем$|^им$|^оно$|^она$|^ее$|^ей$|^ней$|^ей$|^они$|^их$|^им$|^них$|^ими$|^я$|^меня$|^мне$|^мной$|^ты$|^тебя$|^тебе$|^тобой$|^мы$|^нас$|^нам$|^нами$|^вы$|^вас$|^вам$|^вами$|^то$|^того$|^том$|^тем$|^тех$|^тому$|^та$|^те$|^той$|^тот$|^ту$|^тему$|^что$|^чего$|^чему$|^чем$)"
 rus_noun = r"(\wа$|\wы$|\wо$|\wи$|\w[^очен]ь$|\wя$|\w(щ|ш|р|[^о]т|п|л|к|ч|г|ф|[^пере]д|с|з|х|ц|в|б|н|м|ь|ъ)$|\wу$|\w[^о]е$)"
-rus_prep = r"(^[вск](о)*$|^за$|^на$|^перед$|^между$|^по$|^от(o)*$|^у$|^без$|^из(o)*$|^о$|^под$|^про$|^через$|^сквозь$|^близ$|^вдоль$|^вместо$|^вокруг$|^для$|^до$|^из-за$|^кроме$|^мимо$|^около$|^после$)"
+rus_prep = r"(^[вск](о)*$|^за$|^на$|^перед$|^между$|^по$|^от(o)*$|^у$|^без$|^из(o)*$|^об*$|^под$|^про$|^через$|^сквозь$|^близ$|^вдоль$|^вместо$|^вокруг$|^для$|^до$|^из-за$|^кроме$|^мимо$|^около$|^после$)"
 rus_conj = r"(^и$|^но$|^или$)"
 rus_neg = r"(^не(т)*)"
 rus_adv = r"(^очень$|^далеко$|^близко$|^здесь$|^там$|^справа$|^слева$|^наверху$|^внизу$|^везде$|^дома$|^где-то$|^куда-то$|^где-нибудь$|^куда-нибудь$|^налево$|^направо$|^назад$|^туда$|^обратно$|^сюда$|^вниз$|^домой$|^никуда$|\wно$)"
@@ -88,6 +89,7 @@ esp_inter = r"(^kiu$|^kio$|^kia$|^kie$|^kiam$|^kies$|^kiel$|^kial$|^kiom$)"
 def pos_tagger(text_string, manual_tag = True):
     # text_list will hold the tokenized and preprocessed text fed to the function
     text_list = []
+    tokenize(text_string)
     text_list = preprocess(text_string)
     # tagged_list will be a list of lists where each list within the list contains a word and its part of speech
     tagged_list = []
@@ -142,9 +144,9 @@ def pos_tagger(text_string, manual_tag = True):
                 tagged_list.append([w, "INTERROGATIVE"])
             # If a word remains untagged after checking for all of the morphological categories, the program will
             # prompt the user to enter a tag manually. The [word, PART OF SPEECH] tag is then appended to tagged_list as usual.
-            if manual_tag == True:
+            elif manual_tag == True:
                 mantag = input("What part of speech is " + w +" ?")
-                tagged_list.append([w, mantag])
+                tagged_list.append([w, mantag.upper()])
             else:
                 tagged_list.append([w, ""])
     # Here the regex search is checking if the first word contains any Russian characters as defined earlier in russian_chars.
@@ -154,7 +156,7 @@ def pos_tagger(text_string, manual_tag = True):
         for w in text_list:
             if re.search(rus_adj, w):
                 tagged_list.append([w, "ADJ"])
-            elif re.search(rus_verb, w):
+            elif re.search(rus_verb, w) and not re.search(rus_adv, w):
                 tagged_list.append([w, "VERB"])
             elif re.search(rus_pron, w):
                 tagged_list.append([w, "PRON"])
@@ -173,9 +175,9 @@ def pos_tagger(text_string, manual_tag = True):
             elif re.search(rus_num, w):
                 tagged_list.append([w, "NUMBER"])
             # Once again, the user has the option of manually tagging any untagged words.
-            if manual_tag == True:
+            elif manual_tag == True:
                 mantag = input("What part of speech is " + w +" ?")
-                tagged_list.append([w, mantag])
+                tagged_list.append([w, mantag.upper()])
             else:
                 tagged_list.append([w, ""])
     # if untagged:
@@ -184,6 +186,6 @@ def pos_tagger(text_string, manual_tag = True):
     return tagged_list    
        
 # Enter the string that you want tagged here, as text_part.
-text_part = "Ĉiuj homoj estas denaske liberaj kaj egalaj laŭ digno kaj rajtoj. Ili posedas racion kaj konsciencon, kaj devus konduti unu la alian en spirito de frateco."
+text_part = "Дом Зингера — одно из самых узнаваемых зданий на Невском проспекте. Его возвели в 1904 году по проекту архитектора Павла Сюзора. Кроме правления фирмы «Зингер», в разные годы здесь располагались швейные мастерские, американское консульство, издательства и один из самых крупных книжных магазинов Европы — Санкт-Петербургский дом книги. Рассказываем об истории знаменитого здания."
 final_dict = pos_tagger(text_part)
 print(final_dict)
