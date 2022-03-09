@@ -180,9 +180,6 @@ def pos_tagger(text_string, manual_tag = True):
                 tagged_list.append([w, mantag.upper()])
             else:
                 tagged_list.append([w, ""])
-    # if untagged:
-    #     manual_tag(tagged_dict)
-    # Function returns the text with words tagged.
     return tagged_list    
        
 # Enter the string that you want tagged here, as text_part.
