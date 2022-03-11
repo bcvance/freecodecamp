@@ -68,7 +68,7 @@ esp_pron = r"(^min*$|^nin*$|^vin*$|^lin*$|^ŝin*$|^ĝin*$|^ilin*$|^onin*$|^sin*$
 
 esp_prep = r"(^al$|^anstataŭ$|^laŭ$|^da$|^de$|^dum$|^el$|^je$|^krom$|^ĝis$|^malgraŭ$|^kun$|^per$|^por$|^pri$|^pro$|^sen$|^en$)"
 
-esp_adv = r"(\we$|^nun$|^tiam$|^plej$|^pli$)"
+esp_adv = r"(\we$|^nun$|^tiam$|^plej$|^pli$|^pri$)"
 
 esp_conj = r"(^ke$|^kaj$|^aŭ$|^nek$|^se$|^ĉu$|^sed$|^kiel$)"
 
@@ -89,7 +89,6 @@ esp_inter = r"(^kiu$|^kio$|^kia$|^kie$|^kiam$|^kies$|^kiel$|^kial$|^kiom$)"
 def pos_tagger(text_string, manual_tag = True):
     # text_list will hold the tokenized and preprocessed text fed to the function
     text_list = []
-    tokenize(text_string)
     text_list = preprocess(text_string)
     # tagged_list will be a list of lists where each list within the list contains a word and its part of speech
     tagged_list = []
@@ -110,7 +109,7 @@ def pos_tagger(text_string, manual_tag = True):
                 tagged_list.append([w, "ADJECTIVE (PLURAL ACCUSATIVE)"])
             elif re.search(esp_adv, w) and not re.search(esp_prep, w) and not re.search(esp_conj, w) and not re.search(esp_inter, w):
                 tagged_list.append([w, "ADVERB"])
-            elif re.search(esp_imp_verb, w) and not re.search(esp_pron, w):
+            elif re.search(esp_imp_verb, w) and not re.search(esp_pron, w) and not re.search(esp_adv, w):
                 tagged_list.append([w, "VERB (INFINITIVE MOOD)"])
             elif re.search(esp_pres_verb, w):
                 tagged_list.append([w, "VERB (PRESENT TENSE)"])
@@ -183,6 +182,7 @@ def pos_tagger(text_string, manual_tag = True):
     return tagged_list    
        
 # Enter the string that you want tagged here, as text_part.
-text_part = "Дом Зингера — одно из самых узнаваемых зданий на Невском проспекте. Его возвели в 1904 году по проекту архитектора Павла Сюзора. Кроме правления фирмы «Зингер», в разные годы здесь располагались швейные мастерские, американское консульство, издательства и один из самых крупных книжных магазинов Европы — Санкт-Петербургский дом книги. Рассказываем об истории знаменитого здания."
-final_dict = pos_tagger(text_part)
-print(final_dict)
+text1 = "Дом Зингера — одно из самых узнаваемых зданий на Невском проспекте. Его возвели в 1904 году по проекту архитектора Павла Сюзора. Кроме правления фирмы «Зингер», в разные годы здесь располагались швейные мастерские, американское консульство, издательства и один из самых крупных книжных магазинов Европы — Санкт-Петербургский дом книги. Рассказываем об истории знаменитого здания."
+text2 = "En multaj lokoj de Ĉinio estis temploj de drako-reĝo. Dum trosekeco oni preĝis en la temploj, ke la drako-reĝo donu pluvon al la homa mondo. Tiam drako estis simbolo de la supernatura estaĵo. Kaj pli poste, ĝi fariĝis prapatro de la plej altaj regantoj kaj simbolis la absolutan aŭtoritaton de feŭda imperiestro. La imperiestro pretendis, ke li estas filo de la drako. Ĉiuj liaj vivbezonaĵoj portis la nomon drako kaj estis ornamitaj per diversaj drakofiguroj. Nun ĉie en Ĉinio videblas drako-ornamentaĵoj kaj cirkulas legendoj pri drakoj."
+print(pos_tagger(text1.split()))
+print(pos_tagger(text2))
