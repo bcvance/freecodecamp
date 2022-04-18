@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Readex+Pro:wght@200;300;400;600&display=swap');
+
+
+
+/*---Media Queries---*/
+@media(min-width: 768px) {
+    .news-input {
+        width: 50%;
+    }
+}
+
+
+
+
+
+

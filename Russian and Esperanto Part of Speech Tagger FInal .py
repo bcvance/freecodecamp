@@ -185,4 +185,6 @@ def pos_tagger(text_string, manual_tag = True):
 text1 = "Дом Зингера — одно из самых узнаваемых зданий на Невском проспекте. Его возвели в 1904 году по проекту архитектора Павла Сюзора. Кроме правления фирмы «Зингер», в разные годы здесь располагались швейные мастерские, американское консульство, издательства и один из самых крупных книжных магазинов Европы — Санкт-Петербургский дом книги. Рассказываем об истории знаменитого здания."
 text2 = "En multaj lokoj de Ĉinio estis temploj de drako-reĝo. Dum trosekeco oni preĝis en la temploj, ke la drako-reĝo donu pluvon al la homa mondo. Tiam drako estis simbolo de la supernatura estaĵo. Kaj pli poste, ĝi fariĝis prapatro de la plej altaj regantoj kaj simbolis la absolutan aŭtoritaton de feŭda imperiestro. La imperiestro pretendis, ke li estas filo de la drako. Ĉiuj liaj vivbezonaĵoj portis la nomon drako kaj estis ornamitaj per diversaj drakofiguroj. Nun ĉie en Ĉinio videblas drako-ornamentaĵoj kaj cirkulas legendoj pri drakoj."
 print(pos_tagger(text1.split()))
+print("\n")
 print(pos_tagger(text2))
+print("\n")
