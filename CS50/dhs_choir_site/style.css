@@ -14,17 +14,10 @@ a.school-name {
     
 }
 
-#logo {
-    display: inline-block
-}
 
 .logo-pic img {
     position: absolute;
     z-index: 2;
-}
-
-.quote-div {
-    width: 100%;
 }
 
 .quote {
@@ -36,14 +29,6 @@ a.school-name {
     
 }
 
-.flex-container {
-    display: flex;
-}
-
-.break {
-    flex-basis: 100%;
-    height: 0;
-}
 
 .navbar {
     padding-left: 150px;
