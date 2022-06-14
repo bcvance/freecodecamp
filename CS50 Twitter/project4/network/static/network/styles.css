@@ -1,0 +1,47 @@
+p.post-content {
+    margin-bottom: 0;
+}
+
+.nav-btn, #follow-btn {
+    cursor: pointer;
+}
+
+.edit-card {
+    display: none;
+}
+
+#follow-btn {
+    margin-left: 25px;
+}
+
+#followers-section, #following-section, #liked-section {
+    display: none;
+}
+
+.page-number {
+    color: #007bff;
+    text-decoration: underline;
+    margin-right: 3px;
+    cursor: pointer;
+}
+
+div.posts {
+    margin-bottom: 30px;
+}
+
+.edit-card {
+    position: relative;
+}
+
+button[data-post-id] {
+    background-color: green;
+}
+
+.x-btn {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    right: 61.5%;
+    top: 8px;
+}
+

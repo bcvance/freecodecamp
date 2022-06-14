@@ -1,0 +1,39 @@
+textarea {
+    min-height: 400px;
+}
+
+tr {
+    height: 50px;
+    border: 1px solid #999;
+    border-collapse: collapse;
+}
+
+
+table{
+    table-layout: auto;
+    width: 100%;
+  }
+
+td {
+    padding: 15px;
+}
+
+#date {
+    text-align: right;
+    margin-right: 70px;
+    float: right;
+}
+
+#email-content {
+    width: 70%;
+    margin: auto;
+    border: 1px solid #999;
+}
+
+p {
+    margin: 0;
+}
+
+#email-heading {
+    margin-bottom: 10px;
+}

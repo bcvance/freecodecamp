@@ -1,0 +1,61 @@
+#poop {
+    position: absolute;
+    text-decoration: none;
+    z-index: 2;
+}
+
+.navbar-brand {
+    position: absolute;
+    left: 45%;
+    margin-left: -50px !important;  /* 50% of your logo width */
+    display: block;
+}
+
+.main h3 {
+    text-align: center;
+    color: white;
+}
+
+section.main {
+    background-color: #757575;
+}
+
+.mission-container {
+    width: 35%;
+    line-height: 2.5;
+    text-align: center;
+    color: #DADADA;
+    padding-bottom: 50px;
+}
+
+footer p {
+    color: #B0B0B0;
+}
+
+footer {
+    position: relative;
+    height: 50px;
+}
+
+.ok {
+    position: relative;
+    text-align: center;
+    top: 30%;
+    
+}
+
+p {
+    margin-bottom: 0;
+}
+
+@media all and (min-width: 600px) and (max-width: 1000px){
+    .mission-container {
+        width: 50%;
+    }
+}
+
+@media all and (max-width: 600px) {
+    .mission-container {
+        width: 90%;
+    }
+}

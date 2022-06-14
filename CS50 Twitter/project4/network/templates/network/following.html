@@ -1,0 +1,54 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="body" data-title="following">
+        <h1>All Posts</h1>
+        <div class="container">
+            <div class="new-post">
+                <form action="newpost" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">New Post</label>
+                        <textarea class="form-control" id="newpost" name="content" rows="3"></textarea>
+                        <button type="submit" class="btn-secondary">Post</button>
+                    </div>
+                </form>
+            </div>
+            <div class="posts">
+                <h2>Feed</h2>
+                {% for post, liked in posts %}
+                    <div class="post-edit-container" id="post-edit-container-{{ post.id }}" data-post-id="{{ post.id }}">
+                        <div class="mb-3 post-card" id="post-card-{{ post.id }}" data-post-id="{{ post.id }}">
+                            <a href="{% url 'profile' post.poster.id %}"><strong>{{ post.poster }}</strong></a>
+                            <p class="post-content">{{ post.content }}</p>
+                            <small class="text-muted">{{ post.timestamp }}</small>
+                            <img class="like-icon" src="{% static 'network/media/thumbs_up.png' %}" alt=""><span class="num-likes">{{ post.numLikes }}</span>
+                            {% if liked %}
+                                <span class="is-liked">Liked</span>
+                            {% else %}
+                                <span class="is-liked">Not Liked</span>
+                            {% endif %}
+                            {% if request.user.id == post.poster.id %} 
+                                <span class="edit">Edit</span>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3 edit-card" id="edit-card-{{ post.id }}" data-post-id="{{ post.id }}">
+                            <img class="x-btn" src="{% static 'network/media/close.png' %}" alt="">
+                            <textarea name="edited-content" id="edited-content" cols="30" rows="10">{{ post.content }}</textarea>
+                            <button type="submit" class="save-btn">Save</button>
+                        </div>
+                    </div>
+                    
+                {% endfor %}
+                {% for page in pages %}
+                    <span class="page-number" data-page-number="{{ page }}">  {{ page }}   </span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block head %} 
+    <script src="{% static 'network/script.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,54 @@
+h2.headline {
+    text-align: center;
+    color: white;
+}
+
+#poop {
+    position: absolute;
+    text-decoration: none;
+    z-index: 2;
+}
+
+.navbar {
+    position: relative;
+    padding-left: 70px;
+}
+
+.navbar-brand {
+    position: absolute;
+    left: 45%;
+    margin-left: -50px !important;  /* 50% of your logo width */
+    display: block;
+}
+
+.main-section h2 {
+    color: white;
+}
+
+.main-section h5 {
+    color: #DADADA
+}
+
+.main-section{
+    background-color: #757575;
+    text-align: center;
+}
+
+.card-body a{
+    color: black;
+}
+
+footer p {
+    color: #B0B0B0;
+}
+
+footer {
+    position: relative;
+    height: 50px;
+}
+
+.ok {
+    position: relative;
+    text-align: center;
+    top: 30%;   
+}

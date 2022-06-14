@@ -4,6 +4,7 @@ from cmath import sqrt
 import random
 from tkinter.tix import DisplayStyle
 from numpy import choose
+from time import sleep
 
 # these characters will be the symbols for the front of the cards
 characters = ["A", "A", "B", "B", "C", "C", "D", "D", "E", "E", "F", "F", "G", "G", "H", "H"]
@@ -67,10 +68,19 @@ def randomize_cards(playerkey):
     return cards[playerkey]
 
 # prompts user for card number choice
-def choose_card():
-    card_number = input(f"Pick a card number from 1 to {num_characters}")
-    card_number = int(card_number) - 1
-    return card_number
+def choose_card(playerkey):
+    while True:
+        card_number = input(f"Pick a card number from 1 to {num_characters}. ")
+        card_number = int(card_number) - 1
+        if not is_flipped(card_number, playerkey):
+            return card_number
+        
+
+def comp_choose_card():
+    while True:
+        card_number = random.choice(list(range(len(characters))))
+        if not is_flipped(card_number, "computer"):
+            return card_number
 
 # this card will "flip" a card if the move is valid. flipping means changing the value at that card's index from
 # a number (back of card) to a letter (front of card) or vice-versa
@@ -83,14 +93,15 @@ def flip_down(card1, card2, playerkey):
     displays[playerkey][card1] = cards[playerkey][card1][0]
     displays[playerkey][card2] = cards[playerkey][card2][0]
 
-        
+def is_flipped(card_number, playerkey):
+    if isinstance(displays[playerkey][card_number], int):
+        return False
+    return True
+
 # this function checks that the user's card choice is not already flipped and that it is within the range of
 # card numbers available
 def is_valid_move(card_index, playerkey):
-    if not isinstance(displays[playerkey][card_index], int):
-        print("Please choose a card that has not been flipped.")
-        return False
-    elif not card_index in range(num_characters):
+    if not card_index in range(num_characters):
         print(f"Please pick a card number between 1 and {num_characters}")
     else:
         return True
@@ -110,7 +121,8 @@ def game_over(playerkey):
 
 
 def main():
-    num_players = int(input("How many players are there?"))
+    num_players = int(input("How many players are there? "))
+    is_comp = input("Do you want a computer opponent? ")
     # creating the dislay and card lists for each player
     for i in range(num_players):
         key = f"player{i+1}"
@@ -118,21 +130,52 @@ def main():
         cards[key] = create_cards()
         # randomizing the cards for each player
         cards[key] = randomize_cards(key)
+    if is_comp in ["YES", "Yes", "yes", "y"]:
+        displays["computer"] = create_display()
+        cards["computer"] = create_cards()
+        cards["computer"] = randomize_cards("computer")
     # matching game
+
     while True:
-        for i in range(num_players):
+        i = 0
+        while i < num_players:
             key = f"player{i+1}"
             print_board(displays[key], key)
-            card1 = choose_card()
+            card1 = choose_card(key)
             flip_up(card1, key)
             print_board(displays[key], key)
-            card2 = choose_card()
+            sleep(1.5)
+            card2 = choose_card(key)
             flip_up(card2, key)
             print_board(displays[key], key)
+            input("Press Enter to continue.")
             if not is_match(card1, card2, key):
                 flip_down(card1, card2, key)
             if game_over(key):
-                break
+                print(f"{key} wins!")
+                return
+            if not is_match(card1, card2, key):
+                i += 1
+        if is_comp in ["YES", "Yes", "yes", "y"]:
+            while True:
+                print_board(displays["computer"], "computer")
+                card1 = comp_choose_card()
+                flip_up(card1, "computer")
+                print_board(displays["computer"], "computer")
+                sleep(1.5)
+                card2 = comp_choose_card()
+                flip_up(card2, "computer")
+                print_board(displays["computer"], "computer")
+                input("Press Enter to continue.")
+                if not is_match(card1, card2, "computer"):
+                    flip_down(card1, card2, "computer")
+                    break
+                if game_over(key):
+                    print("computer wins :/")
+                    return
+
+
+
         
 main()
 

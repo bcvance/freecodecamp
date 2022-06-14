@@ -35,3 +35,8 @@ a.school-name {
     padding-bottom: 30px;
     width: 100%;
 }
+
+.carousel-item {
+    background-color: #777;
+    height: 32rem;
+}
